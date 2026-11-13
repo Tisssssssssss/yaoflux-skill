@@ -1,0 +1,8 @@
+# 配置片段：追加到 ~/.codex/config.toml 末尾（或交给 install.mjs 自动合并）。
+# 占位符 <NODE_BIN> / <YAOFLUX_ROOT> 会被安装器替换成本机绝对路径。
+# >>> yaoflux (managed)
+[mcp_servers.yaoflux]
+command = "<NODE_BIN>"
+args = ["<YAOFLUX_ROOT>/skills/yaoflux/scripts/mcp_server.mjs"]
+startup_timeout_sec = 30
+# <<< yaoflux (managed)

@@ -1,0 +1,275 @@
+{
+  "schema": "yaoflux.agents/v1",
+  "generated_at": "2026-11-07T12:01:45.073Z",
+  "platform": "darwin",
+  "scan_policy": {
+    "read_only": true,
+    "reads": [
+      "app directory names",
+      "CFBundleIdentifier from Info.plist",
+      "config path existence",
+      "CLI executability"
+    ],
+    "excluded": [
+      "projects",
+      "sessions",
+      "session",
+      "history",
+      "conversations",
+      "chats",
+      "logs",
+      "shell-snapshots",
+      "todos",
+      "cache",
+      "Cache"
+    ],
+    "note": "不读取任何会话正文；不递归进入会话/历史/日志目录"
+  },
+  "summary": {
+    "total": 8,
+    "confirmed": 7,
+    "probable": 1,
+    "enabled": 4,
+    "by_capability": {
+      "L1": 2,
+      "L2": 2,
+      "L3": 2,
+      "unknown": 2
+    },
+    "needs_review": 4
+  },
+  "agents": [
+    {
+      "id": "workbuddy",
+      "name": "WorkBuddy",
+      "kind": "runtime",
+      "adapter": "workbuddy",
+      "evidence": [
+        {
+          "type": "app",
+          "value": "WorkBuddy.app"
+        },
+        {
+          "type": "bundle",
+          "value": "com.tencent.workbuddy.mac"
+        },
+        {
+          "type": "config",
+          "value": "~/.workbuddy"
+        },
+        {
+          "type": "mcp",
+          "value": "~/.workbuddy/mcp.json, ~/.codex/config.toml"
+        }
+      ],
+      "evidence_types": [
+        "app",
+        "bundle",
+        "config",
+        "mcp"
+      ],
+      "confidence": "confirmed",
+      "capability": "L1",
+      "enabled": true,
+      "note": "MCP(STDIO/SSE) + Skill 注入可实时推送；无公开全量会话 API"
+    },
+    {
+      "id": "deepseek-harness",
+      "name": "DeepSeek Harness",
+      "kind": "runtime",
+      "adapter": "harness",
+      "evidence": [
+        {
+          "type": "app",
+          "value": "DeepSeek Harness.app"
+        },
+        {
+          "type": "bundle",
+          "value": "com.deepseek.dsh"
+        }
+      ],
+      "evidence_types": [
+        "app",
+        "bundle"
+      ],
+      "confidence": "confirmed",
+      "capability": "L1",
+      "enabled": true,
+      "note": "append-only 事件链是天然实时源；当前 v0.1 有破坏性变更风险"
+    },
+    {
+      "id": "claude-code",
+      "name": "Claude Code",
+      "kind": "cli",
+      "adapter": "claude",
+      "evidence": [
+        {
+          "type": "app",
+          "value": "CC Switch.app"
+        },
+        {
+          "type": "bundle",
+          "value": "com.ccswitch.desktop"
+        },
+        {
+          "type": "mcp",
+          "value": "~/.workbuddy/mcp.json, ~/.codex/config.toml"
+        }
+      ],
+      "evidence_types": [
+        "app",
+        "bundle",
+        "mcp"
+      ],
+      "confidence": "confirmed",
+      "capability": "L2",
+      "enabled": true,
+      "note": "adapter=claude：Hooks (PostToolUse/Stop) 自动上报事件；不 tail 会话日志。capability 为原始探测分级，实际接入能力见适配器。"
+    },
+    {
+      "id": "codex-cli",
+      "name": "Codex CLI",
+      "kind": "cli",
+      "adapter": "codex",
+      "evidence": [
+        {
+          "type": "config",
+          "value": "~/.codex"
+        }
+      ],
+      "evidence_types": [
+        "config"
+      ],
+      "confidence": "probable",
+      "capability": "L2",
+      "enabled": true,
+      "note": "adapter=codex：[mcp_servers.yaoflux] stdio 主动上报；不 tail 会话日志。capability 为原始探测分级，实际接入能力见适配器。"
+    },
+    {
+      "id": "chatgpt-desktop",
+      "name": "ChatGPT",
+      "kind": "desktop",
+      "adapter": null,
+      "evidence": [
+        {
+          "type": "app",
+          "value": "ChatGPT.app"
+        },
+        {
+          "type": "bundle",
+          "value": "com.openai.codex"
+        }
+      ],
+      "evidence_types": [
+        "app",
+        "bundle"
+      ],
+      "confidence": "confirmed",
+      "capability": "L3",
+      "enabled": false,
+      "note": "封闭桌面 GUI + 云同步，无本地可读事件源，仅发现"
+    },
+    {
+      "id": "grok-desktop",
+      "name": "Grok Bot",
+      "kind": "desktop",
+      "adapter": null,
+      "evidence": [
+        {
+          "type": "app",
+          "value": "Grok Bot.app"
+        },
+        {
+          "type": "bundle",
+          "value": "com.anysphere.sand"
+        }
+      ],
+      "evidence_types": [
+        "app",
+        "bundle"
+      ],
+      "confidence": "confirmed",
+      "capability": "L3",
+      "enabled": false,
+      "note": "封闭桌面 GUI，仅发现"
+    },
+    {
+      "id": "zcode",
+      "name": "ZCode",
+      "kind": "ide",
+      "adapter": null,
+      "evidence": [
+        {
+          "type": "app",
+          "value": "ZCode.app"
+        },
+        {
+          "type": "bundle",
+          "value": "dev.zcode.app"
+        }
+      ],
+      "evidence_types": [
+        "app",
+        "bundle"
+      ],
+      "confidence": "confirmed",
+      "capability": "unknown",
+      "enabled": false,
+      "note": "名称可疑，需 bundle id / 配置特征二次判定"
+    },
+    {
+      "id": "cc-switch",
+      "name": "CC Switch",
+      "kind": "tool",
+      "adapter": null,
+      "evidence": [
+        {
+          "type": "app",
+          "value": "CC Switch.app"
+        },
+        {
+          "type": "bundle",
+          "value": "com.ccswitch.desktop"
+        }
+      ],
+      "evidence_types": [
+        "app",
+        "bundle"
+      ],
+      "confidence": "confirmed",
+      "capability": "unknown",
+      "enabled": false,
+      "note": "Claude Code 供应商切换器，本身不是 agent，作为生态证据"
+    }
+  ],
+  "unclassified": [
+    {
+      "name": "MobileClaw",
+      "bundle_id": "com.cmss.mobileclaw-desktop",
+      "verdict": "probable-agent",
+      "action": "needs-review",
+      "note": "仅凭应用名无法判定，需人工确认或补充特征规则"
+    },
+    {
+      "name": "Marvis",
+      "bundle_id": "com.tencent.mac.marvis",
+      "verdict": "unknown",
+      "action": "needs-review",
+      "note": "仅凭应用名无法判定，需人工确认或补充特征规则"
+    },
+    {
+      "name": "SakuraCat",
+      "bundle_id": "app.getlux.com.sakuracat.app",
+      "verdict": "unknown",
+      "action": "needs-review",
+      "note": "仅凭应用名无法判定，需人工确认或补充特征规则"
+    },
+    {
+      "name": "START",
+      "bundle_id": "com.tencent.start.mac.Start",
+      "verdict": "unknown",
+      "action": "needs-review",
+      "note": "仅凭应用名无法判定，需人工确认或补充特征规则"
+    }
+  ]
+}

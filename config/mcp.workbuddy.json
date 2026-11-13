@@ -1,0 +1,10 @@
+{
+  "_note": "配置片段：把下面的 mcpServers.yaoflux 合并进 ~/.workbuddy/mcp.json。占位符由 install.mjs 在 --apply 时自动替换为绝对路径；不要直接把本文件当配置文件使用。",
+  "mcpServers": {
+    "yaoflux": {
+      "command": "<NODE_BIN>",
+      "args": ["<YAOFLUX_ROOT>/scripts/mcp_server.mjs"],
+      "env": { "YAOFLUX_PORT": "8787" }
+    }
+  }
+}

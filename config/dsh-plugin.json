@@ -1,0 +1,16 @@
+{
+  "_note": "DeepSeek Harness v0.1 Developer Preview 的插件目录与 MCP 清单格式可能随版本变化，安装器刻意不自动写入。请按下面的步骤手动启用；MCP 命令与 WorkBuddy / Codex 完全同一份 mcp_server.mjs。",
+  "plugin": {
+    "name": "yaoflux",
+    "version": "0.2.0",
+    "skills": "./",
+    "assets": "./assets/yaoflux.html"
+  },
+  "manual_steps": [
+    "把整个 yaoflux-skill 目录复制到 Harness 的 plugins/ 目录（v0.1 常见于应用包内或用户配置目录，路径以实际安装为准）。",
+    "在 Harness 的插件 / 技能管理界面启用 yaoflux，确认能读到 SKILL.md。",
+    "在 Harness 的 MCP 配置里注册一个 stdio server：command 为 node 可执行文件绝对路径，args 为 [\"<YAOFLUX_ROOT>/scripts/mcp_server.mjs\"]。",
+    "重启 Harness 会话，调用 yaoflux_status 验证网关，再打开 http://127.0.0.1:8787/ 看板。"
+  ],
+  "caveat": "v0.1 官方声明会有破坏性变更；平台差异全部隔离在 scripts/adapters/harness.mjs 与本片段，不影响看板与事件网关。"
+}

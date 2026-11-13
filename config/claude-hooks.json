@@ -1,0 +1,17 @@
+{
+  "_note": "配置片段：把 hooks 合并进 ~/.claude/settings.json（或项目 .claude/settings.json）。install.mjs 会自动替换占位符并保留已有 hooks。Hook 只读 stdin 元数据，不读会话正文。",
+  "hooks": {
+    "PostToolUse": [
+      {
+        "hooks": [{ "type": "command", "command": "\"<NODE_BIN>\" \"<YAOFLUX_ROOT>/scripts/hook.mjs\"" }],
+        "description": "yaoflux (managed)"
+      }
+    ],
+    "Stop": [
+      {
+        "hooks": [{ "type": "command", "command": "\"<NODE_BIN>\" \"<YAOFLUX_ROOT>/scripts/hook.mjs\"" }],
+        "description": "yaoflux (managed)"
+      }
+    ]
+  }
+}

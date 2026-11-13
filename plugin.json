@@ -1,0 +1,45 @@
+{
+  "name": "yaoflux",
+  "version": "0.3.0",
+  "description": "YAO FLUX · 标准单 Skill 包：自动识别本机所有 Agent，并通过 MCP / Hooks / CLI 把各 Agent 的结构化事件实时推给单文件观象台",
+  "skill_entry": "./SKILL.md",
+  "skills": [
+    "./"
+  ],
+  "skill_format": {
+    "layout": "flat single-skill",
+    "frontmatter": "YAML",
+    "required_fields": ["name", "description"],
+    "note": "包根（也是 .zip 解压后的根目录）直接是 SKILL.md，无额外包装目录；scripts/ 与 references/ 为同级标准目录"
+  },
+  "entrypoints": {
+    "cli": "./bin/yaoflux.mjs",
+    "mcp_stdio": "./scripts/mcp_server.mjs",
+    "installer": "./scripts/install.mjs",
+    "hook": "./scripts/hook.mjs"
+  },
+  "assets": {
+    "dashboard": "./assets/yaoflux.html",
+    "registry": "./agents.json",
+    "event_relay": "./scripts/event_relay.mjs"
+  },
+  "config_snippets": {
+    "workbuddy": "./config/mcp.workbuddy.json",
+    "codex": "./config/mcp.codex.toml",
+    "claude": "./config/claude-hooks.json",
+    "deepseek_harness": "./config/dsh-plugin.json"
+  },
+  "mcp": {
+    "transport": "stdio",
+    "tools": ["yaoflux_emit", "yaoflux_emit_batch", "yaoflux_status", "yaoflux_open", "yaoflux_agents"],
+    "relay": "http://127.0.0.1:8787",
+    "auto_start_relay": true
+  },
+  "compatibility": {
+    "platforms": ["WorkBuddy 5.3+", "DeepSeek Harness v0.1+", "Codex CLI", "Claude Code", "any Agent Skills + MCP stdio compatible client"],
+    "runtime": "Node.js 18+",
+    "os": ["darwin", "linux"],
+    "notes": "DeepSeek Harness 处于 v0.1 Developer Preview，官方声明会有破坏性变更；平台差异全部隔离在 scripts/adapters/ 与 config/。安装器默认 dry-run，--apply 才写用户目录并自动备份。"
+  },
+  "license": "PolyForm-Noncommercial-1.0.0 (derived dashboard, see assets/yaoflux.html header)"
+}
